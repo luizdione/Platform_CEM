@@ -1,83 +1,90 @@
-# CEM — Claude Environment Manager (backup, restauração e migração do ambiente do Claude Code)
+# CEM — Claude Environment Manager (backup, restore and migration of your Claude Code environment)
 
-![Licença](https://img.shields.io/badge/licen%C3%A7a-PolyForm%20Strict%201.0.0-orange)
-![Plataforma](https://img.shields.io/badge/plataforma-Windows%2010%2F11-blue)
-![Uso](https://img.shields.io/badge/uso-n%C3%A3o%20comercial-lightgrey)
+![Licence](https://img.shields.io/badge/licence-PolyForm%20Strict%201.0.0-orange)
+![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue)
+![Use](https://img.shields.io/badge/use-non--commercial-lightgrey)
 
-O **CEM** (Claude Environment Manager) é um aplicativo de desktop e uma linha de comando para quem usa o
-**Claude Code** e quer **guardar, restaurar, organizar e levar para outro computador** o próprio ambiente:
-configurações, skills, agentes, servidores MCP, arquivos `CLAUDE.md`, prompts e templates. Ele localiza tudo
-sozinho, mostra o que há de duplicado, quebrado ou pesado e empacota o ambiente num arquivo `.cem` (com
-conferência de integridade e criptografia opcional) para reinstalar em poucos cliques. Tudo é **local**: nada
-sai da sua máquina.
+**CEM** (Claude Environment Manager) is a desktop application and a command line for people who use
+**Claude Code** and want to **keep, restore, organise and carry to another computer** their own environment:
+settings, skills, agents, MCP servers, `CLAUDE.md` files, prompts and templates. It finds everything on its
+own, shows what is duplicated, broken or oversized, and packs the environment into a `.cem` file (with
+integrity checks and optional encryption) so you can reinstall it in a few clicks. Everything is **local**:
+nothing leaves your machine.
 
-O CEM **nunca** modifica, intercepta nem faz engenharia reversa do Claude Code ou de qualquer software da
-Anthropic: só lê e grava arquivos locais documentados, do próprio usuário, e só altera algo quando você manda
-(criar backup, restaurar, aplicar correção).
+CEM **never** modifies, intercepts or reverse-engineers Claude Code or any Anthropic software: it only reads
+and writes documented local files that belong to you, and it changes something only when you tell it to
+(create a backup, restore, apply a fix).
 
-Este repositório é a **página de distribuição** do CEM: aqui ficam o guia de instalação, a licença e o pacote
-instalável (aba **Releases**). O código-fonte é mantido pelo autor e não é publicado aqui.
+This repository is CEM's **distribution page**: it holds the installation guide, the licence and the
+installable package (the **Releases** tab). The source code is maintained by the author and is not published
+here.
 
-## Para quem é
+## Who it is for
 
-Quem usa o Claude Code no dia a dia — pesquisadores, desenvolvedores, quem troca de computador ou mantém vários
-ambientes — e quer um jeito seguro de fazer backup e migração, sem refazer tudo à mão.
+People who use Claude Code day to day — researchers, developers, anyone who changes computers or keeps several
+environments — and who want a safe way to back up and migrate, without redoing everything by hand.
 
-## O que você recebe
+## What you get
 
-- **Painel**: estado do ambiente, contagem de skills, agentes, MCPs e perfis, tamanho em disco e alertas.
-- **Scanner e diagnóstico**: descoberta somente-leitura de todos os artefatos; referências órfãs, MCPs quebrados,
-  duplicados e arquivos que pesam demais no contexto; "Resolver problemas" propõe uma correção por achado e você
-  aceita ou ignora cada uma, com backup automático.
-- **Backup e restauração** em `.cem`: manifesto, somas de verificação, restauração seletiva e criptografia
-  AES-256-GCM opcional.
-- **Uso de tokens**: consumo real por sessão e projeto em 24 h, 3, 7 e 30 dias, lido dos transcritos locais, com
-  propostas de melhoria.
-- **Inventário do servidor** (somente leitura): CPU, discos, RAM, GPU NVIDIA (inclusive a VRAM que transborda
-  para a RAM), conda, WSL, Docker, programas instalados e alertas de gargalo.
-- **Perfis**, gerenciadores de MCP, skills, agentes e markdown, histórico e sincronização opcional por git.
+- **Dashboard**: the state of the environment, counts of skills, agents, MCPs and profiles, size on disk and
+  warnings.
+- **Scanner and diagnostics**: read-only discovery of every artefact; orphan references, broken MCPs,
+  duplicates and files that weigh too much on the context; "Resolver problemas" proposes one fix per finding
+  and you accept or ignore each one, with an automatic backup.
+- **Backup and restore** in `.cem`: manifest, checksums, selective restore and optional AES-256-GCM
+  encryption.
+- **Token usage**: real consumption per session and project over 24 h, 3, 7 and 30 days, read from the local
+  transcripts, with suggestions for improvement.
+- **Server inventory** (read-only): CPU, disks, RAM, NVIDIA GPU (including VRAM that spills into RAM), conda,
+  WSL, Docker, installed programs and bottleneck warnings.
+- **Profiles**, MCP managers, skills, agents and markdown, history and optional git synchronisation.
 - **CLI** `cem`: `scan`, `doctor`, `fix`, `backup`, `restore`, `verify`, `profiles`, `tokens`, `usage`,
-  `mcp`, `history`, `sync` e outros.
+  `mcp`, `history`, `sync` and others.
 
-## Instalação (resumo)
+## Installation (summary)
 
-Pré-requisitos já instalados: Windows 10/11 64 bits, **Node.js 20 ou mais novo** (https://nodejs.org) e
-internet durante a instalação.
+Prerequisites you install yourself: Windows 10/11 64-bit, **Node.js 20 or newer** (https://nodejs.org) and an
+internet connection during installation.
 
-1. Baixe `CEM-<versão>-instalador.zip` (e o `.sha256` para conferir) em **Releases**.
-2. Extraia numa **pasta curta** sua (por exemplo `C:\CEM`) e dê dois cliques em **`Instalar-CEM.bat`**.
-3. Leia a licença e digite **S** para aceitar. O instalador confere o Node.js e o pnpm, baixa as dependências,
-   compila o app e a CLI e, se você quiser, cria um atalho na Área de Trabalho.
-4. Abra o CEM pelo atalho ou, na pasta, com `apps\desktop\node_modules\electron\dist\electron.exe apps\desktop`.
+1. Download `CEM-<version>-instalador.zip` (and the `.sha256`, to verify it) from **Releases**.
+2. Extract it into a **short path** of your own (for example `C:\CEM`) and double-click
+   **`Instalar-CEM.bat`**.
+3. Read the licence and type **S** to accept. The installer checks Node.js and pnpm, downloads the
+   dependencies, builds the app and the CLI and, if you want, creates a desktop shortcut.
+4. Open CEM from the shortcut or, in the package folder, with
+   `apps\desktop\node_modules\electron\dist\electron.exe apps\desktop`.
 
-Passo a passo completo, o que é gravado onde e problemas comuns: [INSTALACAO.md](INSTALACAO.md).
+Full walkthrough, what is written where, and common problems: [INSTALL.md](INSTALL.md).
 
-## Configurar e usar
+> The installer console and parts of the interface are in Portuguese. The prompts you need are quoted above
+> and in the guide.
 
-- O CEM começa só **olhando** o seu ambiente (somente leitura). Nada é apagado automaticamente.
-- Para fazer backup: seção **Backup** → escolha a pasta de destino → (opcional) marque a criptografia e defina
-  uma senha → **Criar backup**. Para restaurar: seção **Restore** → escolha o `.cem` → revise → restaure.
-  Sem a senha, um `.cem` criptografado não tem recuperação.
-- Preferências (tema, padrões de backup, privacidade) ficam em **Settings**.
-- Pela linha de comando, dentro da pasta de instalação: `node apps\cli\dist\index.js --help`.
-- Atualizar: baixe o novo `.zip` em **Releases**, extraia numa pasta nova e rode o instalador de novo. Não há
-  atualização automática.
+## Setting up and using
 
-## Licença
+- CEM starts by only **looking** at your environment (read-only). Nothing is deleted automatically.
+- To back up: the **Backup** section → choose the destination folder → (optionally) tick encryption and set a
+  password → **Create backup**. To restore: the **Restore** section → choose the `.cem` → review → restore.
+  Without the password, an encrypted `.cem` cannot be recovered.
+- Preferences (theme, backup defaults, privacy) live in **Settings**.
+- From the command line, inside the installation folder: `node apps\cli\dist\index.js --help`.
+- To update: download the new `.zip` from **Releases**, extract it into a new folder and run the installer
+  again. There is no automatic update.
 
-**PolyForm Strict 1.0.0** ([LICENSE](LICENSE)) — licença de **uso**: você pode baixar e usar o CEM
-gratuitamente para fins **não comerciais** (pesquisa, ensino, uso pessoal, instituições sem fins lucrativos e
-órgãos públicos). **Não é permitido** redistribuir cópias, modificar ou criar obras derivadas, nem usar o CEM em
-atividade comercial ou vendê-lo. Para qualquer outro uso, fale com o autor. Programa de computador protegido
-pela Lei 9.609/98, de autor único.
+## Licence
 
-Required Notice: Copyright Luiz Dione Barbosa De-Melo (https://github.com/luizdione/CEM_platform)
+**PolyForm Strict 1.0.0** ([LICENSE](LICENSE)) — a licence to **use**: you may download and use CEM free of
+charge for **non-commercial** purposes (research, teaching, personal use, not-for-profit institutions and
+public bodies). You may **not** redistribute copies, modify it or create derivative works, nor use CEM in
+commercial activity or sell it. For any other use, contact the author. Computer program protected by Brazilian
+Law 9.609/98, with a sole author.
 
-Esta licença vale a partir da versão 1.5.0. As versões até a 1.4.0 foram publicadas antes, sob licença MIT, e
-continuam sob ela. Os componentes de terceiros que o instalador baixa (Electron, React e as demais
-dependências npm) têm as próprias licenças e não são redistribuídos aqui.
+Required Notice: Copyright Luiz Dione Barbosa De-Melo (https://github.com/luizdione/Platform_CEM)
 
-## Autor
+This licence applies from version 1.5.0 onwards. Versions up to 1.4.0 were released earlier under the MIT
+License and remain under it. The third-party components the installer downloads (Electron, React and the other
+npm dependencies) have their own licences and are not redistributed here.
 
-Luiz Dione Barbosa De-Melo — desenvolvedor e único titular do CEM. Dúvidas, relatos de problema e pedidos de
-uso fora da licença: abra uma *issue* neste repositório.
+## Author
+
+Luiz Dione Barbosa De-Melo — developer and sole rights holder of CEM. Questions, bug reports and requests for
+uses outside the licence: open an *issue* in this repository.
