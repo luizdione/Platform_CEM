@@ -1,91 +1,133 @@
 # Instalar o CEM na sua máquina
 
 O CEM (Claude Environment Manager) faz **backup, restauração, organização e migração** do seu ambiente do
-Claude Code. O instalador confere os pré-requisitos, baixa as dependências, compila o aplicativo de desktop e
-a linha de comando `cem` e, se você quiser, cria um atalho. Tudo fica dentro da pasta do pacote.
+Claude Code. A entrega é um **instalador do Windows**: você baixa um arquivo, dá dois cliques e usa. Não
+precisa de Node.js, não precisa compilar nada e não precisa de internet durante a instalação.
 
 > Licença: **PolyForm Strict 1.0.0** — você pode baixar e usar o CEM para fins **não comerciais** (pessoais,
 > acadêmicos, institucionais). **Não** é permitido redistribuir cópias, modificar ou usar comercialmente. Texto
-> completo em `LICENSE`; programa protegido pela Lei 9.609/98. O instalador pede o seu aceite antes de instalar.
+> completo em `LICENSE`; programa protegido pela Lei 9.609/98. O instalador mostra a licença e pede o seu
+> aceite antes de instalar.
 
-## Pré-requisitos (já instalados por você)
+## Pré-requisitos
 
-| O quê | Para quê | Onde |
-|---|---|---|
-| Windows 10/11 64 bits | o instalador é PowerShell | — |
-| **Node.js 20 ou mais novo** (versão LTS) | compilar e rodar o app e a CLI | https://nodejs.org |
-| **pnpm 10 ou mais novo** (ou o `corepack`, que já vem com o Node até a versão 24) | instalar as dependências | `npm install -g pnpm` |
-| Internet durante a instalação | baixa as dependências e o runtime do Electron (~100 MB) | — |
-| Espaço em disco: cerca de 1 GB livre | `node_modules` ocupa ~660 MB depois de instalado | — |
+| O quê | Para quê |
+|---|---|
+| Windows 10 ou 11, 64 bits | o aplicativo é compilado para essa plataforma |
+| Cerca de 400 MB livres em disco | o aplicativo instalado |
+| **Nada além disso** | sem Node.js, sem pnpm, sem compilar, sem internet na instalação |
 
-O CEM não precisa que o Claude Code esteja instalado para rodar; só lê os arquivos dele se existirem.
+Não precisa de permissão de administrador: a instalação é **da sua conta de usuário**, não da máquina toda.
+
+O CEM não exige que o Claude Code esteja instalado para abrir; ele só lê os arquivos dele se existirem.
 
 ## Passo a passo
 
-1. Baixe o pacote `CEM-<versão>-instalador.zip` (e o `.sha256`, se quiser conferir) na página de *Releases* de
-   https://github.com/luizdione/CEM_platform.
-2. (Opcional) Confira o arquivo no PowerShell e compare com o conteúdo do `.sha256`:
-   `Get-FileHash .\CEM-<versão>-instalador.zip -Algorithm SHA256`
-3. Extraia numa **pasta curta**, por exemplo `C:\CEM` (o caminho da pasta precisa ter no máximo 120 caracteres: o
-   Windows não executa programas em caminhos de mais de 260 caracteres e a compilação falharia; evite também
-   pastas sincronizadas pelo OneDrive). Dentro da pasta extraída haverá `CEM-<versão>\`.
-4. Dê dois cliques em **`Instalar-CEM.bat`** (dentro de `CEM-<versão>\`). Abre uma janela de console que:
-   1. mostra o resumo da licença e pede o aceite — digite **S** para aceitar;
-   2. confere o Node.js (≥ 20) e o pnpm (≥ 10, ou usa o corepack);
-   3. instala as dependências (`pnpm install --frozen-lockfile`);
-   4. compila os pacotes e a CLI (`pnpm build`) e o app desktop;
-   5. confere que a CLI responde com a versão do pacote;
-   6. pergunta se você quer o atalho **Claude Environment Manager (CEM)** na Área de Trabalho.
-5. Abra o CEM pelo atalho ou, na pasta do pacote:
-   `apps\desktop\node_modules\electron\dist\electron.exe apps\desktop`
-   Na primeira abertura ele varre o seu ambiente (somente leitura) e mostra o Painel.
+1. Na aba **Releases** de <https://github.com/luizdione/Platform_CEM>, baixe:
+   - `install_CEM-<versão>.exe` — o instalador;
+   - `install_CEM-<versão>.exe.sha256` — a soma de verificação (opcional, mas vale conferir).
+2. **Confira o arquivo** antes de executar. No PowerShell, na pasta onde baixou:
 
-Para testar sem perguntas e sem atalho: `Instalar-CEM.bat -AutoTeste`.
+   ```powershell
+   Get-FileHash .\install_CEM-<versão>.exe -Algorithm SHA256
+   ```
+
+   O resultado tem de ser igual ao conteúdo do arquivo `.sha256`. Se for diferente, **não execute**: baixe de novo.
+3. Dê dois cliques no `install_CEM-<versão>.exe`.
+4. **O Windows vai avisar que o editor é desconhecido** — veja a seção seguinte. Isso é esperado.
+5. O instalador abre e:
+   1. mostra a licença e pede o aceite — você precisa aceitar para continuar;
+   2. propõe uma pasta de instalação, que você pode trocar;
+   3. instala o aplicativo, cria o atalho **Claude Environment Manager** na Área de Trabalho e no menu Iniciar,
+      e associa os arquivos `.cem` ao CEM (dois cliques num backup abrem o programa).
+6. Abra pelo atalho. Na primeira abertura o CEM varre o seu ambiente **somente leitura** e mostra o Painel.
+
+### O aviso do Windows (SmartScreen)
+
+O instalador **não tem assinatura digital de código**, porque o certificado é pago e o CEM é distribuído por
+um autor individual. Então o Windows mostra *"O Windows protegeu o seu PC"* / *"Editor: desconhecido"*. Para
+seguir: **Mais informações → Executar assim mesmo**.
+
+Esse aviso diz que o Windows não conhece o editor — não que o arquivo esteja alterado. Quem garante que o
+arquivo é o que o autor publicou é a **soma SHA-256** do passo 2. Confira-a e você tem, quanto à integridade
+do arquivo, a mesma garantia que uma assinatura daria. O antivírus pode reclamar pelo mesmo motivo; se
+bloquear, libere o arquivo depois de conferir a soma.
 
 ## O que o instalador grava (e nada mais)
 
 | Onde | O quê |
 |---|---|
-| `<pasta do pacote>\node_modules\` e `apps\*\node_modules\` | as dependências (inclui o runtime do Electron) |
-| `<pasta do pacote>\apps\desktop\out\` e `...\dist\` | o app e a CLI compilados |
-| `Área de Trabalho\Claude Environment Manager (CEM).lnk` | o atalho, só se você aceitar |
-| cache do pnpm / corepack | só o cache de downloads do próprio pnpm, se ele for usado via corepack |
+| A pasta de instalação que você escolheu | o aplicativo |
+| `Área de Trabalho\Claude Environment Manager.lnk` e o menu Iniciar | os atalhos |
+| Registro do usuário (`HKCU`) | a entrada de "Aplicativos instalados", para desinstalar, e a associação do `.cem` |
+| Pasta de dados do aplicativo, na sua conta | as suas preferências (tema, padrões de backup, privacidade) |
 
-Não altera o `PATH`, o registro do Windows nem variáveis de ambiente. Para remover, apague a pasta do pacote e o atalho.
+Não mexe no `PATH`, não escreve em `HKEY_LOCAL_MACHINE` e não instala serviço nem tarefa agendada.
+
+## Desinstalar
+
+**Configurações do Windows → Aplicativos → Aplicativos instalados → Claude Environment Manager →
+Desinstalar.** Os seus arquivos `.cem` e as suas preferências **não** são apagados: ficam fora da pasta de
+instalação, para você poder reinstalar ou atualizar sem perder nada. Para apagar também as preferências,
+remova a pasta de dados do aplicativo depois de desinstalar.
+
+## Atualizar
+
+Baixe o `install_CEM-<versão nova>.exe` na aba **Releases**, confira a soma e execute. Ele atualiza a
+instalação existente, mantendo as suas preferências e os seus backups.
+
+## A linha de comando `cem` (opcional)
+
+Além do aplicativo, o CEM tem uma linha de comando, entregue à parte porque ela **precisa do Node.js**. Na
+aba Releases, baixe `cem-cli-<versão>.tgz` e instale:
+
+```powershell
+npm install -g .\cem-cli-<versão>.tgz
+```
+
+Isso precisa de **Node.js 20 ou mais novo** (<https://nodejs.org>). Depois:
+
+```powershell
+cem --help
+cem scan
+cem doctor
+cem backup
+cem verify meu-backup.cem
+```
+
+Comandos disponíveis: `scan`, `doctor`, `fix`, `backup`, `export`, `restore`, `import`, `verify`, `profiles`,
+`tokens`, `usage`, `mcp`, `managers`, `history` e `sync`. A mesma licença vale para a CLI, e o texto dela vai
+dentro do pacote.
 
 ## Usar
 
-- **Aplicativo**: Painel, Scanner, Diagnóstico, Inventário do servidor, Análise e uso de tokens, MCP / Skills /
-  Agentes / Markdown, Perfis, Backup, Restauração, Histórico e Sincronização. Preferências em *Settings*.
-- **Linha de comando**, na pasta do pacote: `node apps\cli\dist\index.js --help`, por exemplo
-  `node apps\cli\dist\index.js scan`, `... doctor`, `... backup`, `... verify <arquivo.cem>`.
-- **Backup**: o app mostra o caminho, o tamanho e o número de arquivos do `.cem` criado. Marque a criptografia
-  AES-256-GCM e defina uma senha se o ambiente tiver segredos; sem a senha não há como recuperar o arquivo.
-- **Atualizar**: baixe o novo `.zip`, extraia numa pasta nova e rode o instalador de novo. Seus `.cem` e as
-  preferências ficam fora da pasta do pacote e não são perdidos.
+- **Aplicativo**: Painel, Scanner, Diagnóstico, Inventário do servidor, Análise e uso de tokens,
+  MCP / Skills / Agentes / Markdown, Perfis, Backup, Restauração, Histórico e Sincronização. Preferências em
+  *Settings*.
+- **Backup**: seção **Backup** → escolha a pasta de destino → (opcional) marque a criptografia AES-256-GCM e
+  defina uma senha → **Criar backup**. O app mostra o caminho, o tamanho e o número de arquivos do `.cem`.
+  **Sem a senha, um `.cem` criptografado não tem recuperação** — guarde-a.
+- **Restaurar**: seção **Restore** → escolha o `.cem` → revise o que será escrito → restaure. Dá para
+  restaurar só parte, por tipo de artefato ou arquivo por arquivo.
+- O CEM começa só **olhando** o seu ambiente, somente leitura. Nada é apagado automaticamente, e cada correção
+  proposta em "Resolver problemas" é aceita ou ignorada por você, com backup automático antes.
 
-## Outros sistemas
+## Outros sistemas (macOS e Linux)
 
-O instalador em `.bat` é só para Windows. Em macOS ou Linux, para uso pessoal sob a mesma licença, dentro da
-pasta extraída com Node.js ≥ 20 e pnpm ≥ 10:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm build
-pnpm --filter @cem/desktop build
-node apps/cli/dist/index.js --help
-```
+A entrega pronta é só para Windows. A linha de comando acima funciona em macOS e Linux com Node.js ≥ 20
+(`npm install -g ./cem-cli-<versão>.tgz`). Para o aplicativo de desktop nesses sistemas, fale com o autor.
 
 ## Problemas comuns
 
-- **"Node.js não encontrado" / "Node.js ... é antigo"**: instale a versão LTS em https://nodejs.org e abra um
-  console novo antes de rodar o instalador de novo.
-- **"pnpm não encontrado"**: rode `npm install -g pnpm` num console novo (ou ative o corepack) e tente de novo.
-- **"A pasta do pacote tem caminho longo demais"**: extraia numa pasta curta, como `C:\CEM`.
-- **"A execução de scripts foi desabilitada"**: o `.bat` já passa `-ExecutionPolicy Bypass`; se rodar o `.ps1` à
-  mão, use `powershell -ExecutionPolicy Bypass -File instalador\Instalar-CEM.ps1`.
-- **Falha ao baixar o Electron** (rede corporativa, proxy, antivírus): rode o instalador de novo numa rede sem
-  bloqueio; ele é seguro de repetir.
-- **O Windows SmartScreen ou o antivírus avisa sobre o `.bat`**: o arquivo é texto e pode ser lido antes de
-  executar; confira o `.sha256` do `.zip`.
-- **Algo parou no meio**: rode `Instalar-CEM.bat` de novo; é seguro repetir.
+- **"O Windows protegeu o seu PC" / "Editor: desconhecido"**: esperado, veja a seção do SmartScreen acima —
+  confira a soma SHA-256 e use **Mais informações → Executar assim mesmo**.
+- **A soma SHA-256 não bate**: não execute o arquivo. O download provavelmente veio incompleto; baixe de novo.
+- **O antivírus apagou o instalador**: confira a soma do arquivo baixado e libere-o na quarentena do
+  antivírus, ou adicione uma exceção para a pasta de download.
+- **"Este aplicativo não pode ser executado no seu PC"**: o instalador é 64 bits; confira em
+  *Configurações → Sistema → Sobre* se o seu Windows é de 64 bits.
+- **O atalho não apareceu**: procure "Claude Environment Manager" no menu Iniciar. Para fixar na barra de
+  tarefas, clique com o botão direito na entrada do menu Iniciar → *Fixar na barra de tarefas*: instalador
+  nenhum consegue fazer isso sozinho no Windows 10/11.
+- **`cem` não é reconhecido depois do `npm install -g`**: abra um console novo, para ele reler o `PATH`.
+- **Algo parou no meio da instalação**: rode o instalador de novo; é seguro repetir.

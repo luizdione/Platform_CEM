@@ -15,8 +15,9 @@ O CEM **nunca** modifica, intercepta nem faz engenharia reversa do Claude Code o
 Anthropic: só lê e grava arquivos locais documentados, do próprio usuário, e só altera algo quando você manda
 (criar backup, restaurar, aplicar correção).
 
-Este repositório é a **página de distribuição** do CEM: aqui ficam o guia de instalação, a licença e o pacote
-instalável (aba **Releases**). O código-fonte é mantido pelo autor e não é publicado aqui.
+Este repositório é a **página de distribuição** do CEM: aqui ficam o guia de instalação, a licença e o
+instalador (aba **Releases**). O código-fonte não é publicado: o que você baixa é o **aplicativo já
+compilado**.
 
 ## Para quem é
 
@@ -41,16 +42,25 @@ ambientes — e quer um jeito seguro de fazer backup e migração, sem refazer t
 
 ## Instalação (resumo)
 
-Pré-requisitos já instalados: Windows 10/11 64 bits, **Node.js 20 ou mais novo** (https://nodejs.org) e
-internet durante a instalação.
+Pré-requisito: **Windows 10/11 64 bits** e cerca de 400 MB livres em disco. Nada mais — sem Node.js, sem
+compilar, sem internet durante a instalação, sem permissão de administrador.
 
-1. Baixe `CEM-<versão>-instalador.zip` (e o `.sha256` para conferir) em **Releases**.
-2. Extraia numa **pasta curta** sua (por exemplo `C:\CEM`) e dê dois cliques em **`Instalar-CEM.bat`**.
-3. Leia a licença e digite **S** para aceitar. O instalador confere o Node.js e o pnpm, baixa as dependências,
-   compila o app e a CLI e, se você quiser, cria um atalho na Área de Trabalho.
-4. Abra o CEM pelo atalho ou, na pasta, com `apps\desktop\node_modules\electron\dist\electron.exe apps\desktop`.
+1. Na aba **Releases**, baixe `install_CEM-<versão>.exe` e, para conferir, o `.sha256`.
+2. Confira a soma: `Get-FileHash .\install_CEM-<versão>.exe -Algorithm SHA256` tem de bater com o `.sha256`.
+3. Dê dois cliques no instalador. O Windows avisa que o **editor é desconhecido** (o instalador não é assinado,
+   e é por isso que existe a soma de verificação): **Mais informações → Executar assim mesmo**.
+4. Leia a licença e aceite; escolha a pasta, se quiser mudar. O instalador cria o atalho **Claude Environment
+   Manager** na Área de Trabalho e no menu Iniciar.
+5. Abra pelo atalho. Na primeira abertura ele varre o seu ambiente (somente leitura) e mostra o Painel.
 
-Passo a passo completo, o que é gravado onde e problemas comuns: [INSTALACAO.md](INSTALACAO.md).
+Passo a passo completo, o aviso do SmartScreen, o que é gravado onde, como desinstalar e problemas comuns:
+[INSTALACAO.md](INSTALACAO.md).
+
+### Linha de comando (opcional)
+
+A CLI vai à parte, porque ela precisa de **Node.js 20 ou mais novo**. Baixe `cem-cli-<versão>.tgz` em
+**Releases** e instale com `npm install -g .\cem-cli-<versão>.tgz`; depois, `cem --help`. Funciona também em
+macOS e Linux.
 
 ## Configurar e usar
 
@@ -59,9 +69,8 @@ Passo a passo completo, o que é gravado onde e problemas comuns: [INSTALACAO.md
   uma senha → **Criar backup**. Para restaurar: seção **Restore** → escolha o `.cem` → revise → restaure.
   Sem a senha, um `.cem` criptografado não tem recuperação.
 - Preferências (tema, padrões de backup, privacidade) ficam em **Settings**.
-- Pela linha de comando, dentro da pasta de instalação: `node apps\cli\dist\index.js --help`.
-- Atualizar: baixe o novo `.zip` em **Releases**, extraia numa pasta nova e rode o instalador de novo. Não há
-  atualização automática.
+- Atualizar: baixe o instalador da versão nova em **Releases** e execute. Ele atualiza por cima, mantendo as
+  suas preferências e os seus backups.
 
 ## Licença
 
@@ -71,11 +80,11 @@ gratuitamente para fins **não comerciais** (pesquisa, ensino, uso pessoal, inst
 atividade comercial ou vendê-lo. Para qualquer outro uso, fale com o autor. Programa de computador protegido
 pela Lei 9.609/98, de autor único.
 
-Required Notice: Copyright Luiz Dione Barbosa De-Melo (https://github.com/luizdione/CEM_platform)
+Required Notice: Copyright Luiz Dione Barbosa De-Melo (https://github.com/luizdione/Platform_CEM)
 
 Esta licença vale a partir da versão 1.5.0. As versões até a 1.4.0 foram publicadas antes, sob licença MIT, e
-continuam sob ela. Os componentes de terceiros que o instalador baixa (Electron, React e as demais
-dependências npm) têm as próprias licenças e não são redistribuídos aqui.
+continuam sob ela. Os componentes de terceiros embutidos no aplicativo (Electron, React e as demais
+dependências) têm as próprias licenças.
 
 ## Autor
 
