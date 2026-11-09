@@ -72,8 +72,11 @@ works on macOS and Linux.
   password → **Create backup**. To restore: the **Restore** section → choose the `.cem` → review → restore.
   Without the password, an encrypted `.cem` cannot be recovered.
 - Preferences (theme, backup defaults, privacy) live in **Settings**.
-- To update: download the newer installer from **Releases**, check its checksum and run it. It updates the
-  existing installation and keeps your preferences and your backups.
+- **Updates**: CEM can check for them itself. In **Settings** press *Check for updates* at any time, or turn
+  on the automatic check — it is **off by default**. CEM never downloads or installs anything on its own: it
+  tells you a version is available, you press *Download*, and then *Restart and install*. Before downloading,
+  it creates a `.cem` backup of your environment, so you can go back. You can also skip all of that and just
+  run the newer installer from **Releases**.
 
 ## Licence
 

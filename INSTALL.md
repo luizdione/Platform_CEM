@@ -76,8 +76,21 @@ uninstalling.
 
 ## Updating
 
-Download `install_CEM-<new version>.exe` from the **Releases** tab, check the checksum and run it. It updates
-the existing installation and keeps your preferences and your backups.
+Two ways, and both keep your preferences and your backups.
+
+**From inside the application.** Open **Settings → Updates** and press *Check for updates*. There is also a
+switch for checking automatically at launch, which is **off by default** — CEM does not phone home unless you
+ask it to. When a newer version exists:
+
+1. CEM tells you which version it found. Nothing is downloaded yet.
+2. You press *Download*. **Before downloading, CEM creates a `.cem` backup of your environment**, so you can
+   restore the previous state if the new version does not suit you. The download is verified against the
+   checksum published with the release, and a failed check aborts the update.
+3. You press *Restart and install*. CEM never installs on its own and never installs on quit.
+
+**By hand.** Download `install_CEM-<new version>.exe` from the **Releases** tab, check the checksum and run
+it. It updates the existing installation. Use this if your network blocks the check, or if you simply prefer
+to decide when to look.
 
 ## The `cem` command line (optional)
 
