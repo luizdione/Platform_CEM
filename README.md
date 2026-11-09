@@ -16,8 +16,8 @@ and writes documented local files that belong to you, and it changes something o
 (create a backup, restore, apply a fix).
 
 This repository is CEM's **distribution page**: it holds the installation guide, the licence and the
-installable package (the **Releases** tab). The source code is maintained by the author and is not published
-here.
+installer (the **Releases** tab). The source code is not published: what you download is the **already-built
+application**.
 
 ## Who it is for
 
@@ -43,21 +43,27 @@ environments — and who want a safe way to back up and migrate, without redoing
 
 ## Installation (summary)
 
-Prerequisites you install yourself: Windows 10/11 64-bit, **Node.js 20 or newer** (https://nodejs.org) and an
-internet connection during installation.
+All you need: **Windows 10/11 64-bit** and about 400 MB of free disk space. Nothing else — no Node.js, no
+building, no internet connection during installation, no administrator rights.
 
-1. Download `CEM-<version>-instalador.zip` (and the `.sha256`, to verify it) from **Releases**.
-2. Extract it into a **short path** of your own (for example `C:\CEM`) and double-click
-   **`Instalar-CEM.bat`**.
-3. Read the licence and type **S** to accept. The installer checks Node.js and pnpm, downloads the
-   dependencies, builds the app and the CLI and, if you want, creates a desktop shortcut.
-4. Open CEM from the shortcut or, in the package folder, with
-   `apps\desktop\node_modules\electron\dist\electron.exe apps\desktop`.
+1. From **Releases**, download `install_CEM-<version>.exe` and, to verify it, the `.sha256`.
+2. Check the file: `Get-FileHash .\install_CEM-<version>.exe -Algorithm SHA256` must match the `.sha256`.
+3. Double-click the installer. Windows will warn you that the **publisher is unknown** — the installer is not
+   code-signed, which is exactly why the checksum exists: **More info → Run anyway**.
+4. Read the licence and accept it; change the folder if you want. The installer creates the **Claude
+   Environment Manager** shortcut on your Desktop and in the Start menu, and associates `.cem` files with CEM.
+5. Open CEM from the shortcut. On first launch it scans your environment (read-only) and shows the Dashboard.
 
-Full walkthrough, what is written where, and common problems: [INSTALL.md](INSTALL.md).
+Full walkthrough, the SmartScreen warning, what is written where, how to uninstall and common problems:
+[INSTALL.md](INSTALL.md).
 
-> The installer console and parts of the interface are in Portuguese. The prompts you need are quoted above
-> and in the guide.
+### Command line (optional)
+
+The CLI ships separately, because it needs **Node.js 20 or newer**. Download `cem-cli-<version>.tgz` from
+**Releases** and install it with `npm install -g .\cem-cli-<version>.tgz`; then run `cem --help`. It also
+works on macOS and Linux.
+
+> Parts of the interface, and some of the diagnostic messages, are in Portuguese.
 
 ## Setting up and using
 
@@ -66,9 +72,8 @@ Full walkthrough, what is written where, and common problems: [INSTALL.md](INSTA
   password → **Create backup**. To restore: the **Restore** section → choose the `.cem` → review → restore.
   Without the password, an encrypted `.cem` cannot be recovered.
 - Preferences (theme, backup defaults, privacy) live in **Settings**.
-- From the command line, inside the installation folder: `node apps\cli\dist\index.js --help`.
-- To update: download the new `.zip` from **Releases**, extract it into a new folder and run the installer
-  again. There is no automatic update.
+- To update: download the newer installer from **Releases**, check its checksum and run it. It updates the
+  existing installation and keeps your preferences and your backups.
 
 ## Licence
 
@@ -81,8 +86,8 @@ Law 9.609/98, with a sole author.
 Required Notice: Copyright Luiz Dione Barbosa De-Melo (https://github.com/luizdione/Platform_CEM)
 
 This licence applies from version 1.5.0 onwards. Versions up to 1.4.0 were released earlier under the MIT
-License and remain under it. The third-party components the installer downloads (Electron, React and the other
-npm dependencies) have their own licences and are not redistributed here.
+License and remain under it. The third-party components bundled in the application (Electron, React and the
+other dependencies) have their own licences.
 
 ## Author
 
